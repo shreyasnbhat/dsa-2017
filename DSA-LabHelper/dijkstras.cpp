@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
+#include<iostream>
+using namespace std;
  
 // A structure to represent a node in adjacency list
 struct AdjListNode
@@ -286,25 +288,24 @@ void dijkstra(struct Graph* graph, int src)
 // Driver program to test above functions
 int main()
 {
-    // create the graph given in above fugure
-    int V = 9;
-    struct Graph* graph = createGraph(V);
-    addEdge(graph, 0, 1, 4);
-    addEdge(graph, 0, 7, 8);
-    addEdge(graph, 1, 2, 8);
-    addEdge(graph, 1, 7, 11);
-    addEdge(graph, 2, 3, 7);
-    addEdge(graph, 2, 8, 2);
-    addEdge(graph, 2, 5, 4);
-    addEdge(graph, 3, 4, 9);
-    addEdge(graph, 3, 5, 14);
-    addEdge(graph, 4, 5, 10);
-    addEdge(graph, 5, 6, 2);
-    addEdge(graph, 6, 7, 1);
-    addEdge(graph, 6, 8, 6);
-    addEdge(graph, 7, 8, 7);
- 
-    dijkstra(graph, 0);
- 
+    int cases;
+    cin>>cases;
+    for(int i = 0 ; i < cases ; i++){
+    	
+	    // create the graph given in above fugure
+	    int V,E;
+	    cin >> V >> E;
+	    struct Graph* graph = createGraph(V);
+	    for(int j = 0 ; j < E ; j++ ){
+	    
+	    	int u,v,weight;
+	    	cin >> u >> v >> weight;
+	    	addEdge(graph,u-1,v-1,weight);	
+	    }
+	    
+	    int start;
+	    cin>>start;	
+	    dijkstra(graph, start-1);
+     }	
     return 0;
 }

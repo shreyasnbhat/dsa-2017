@@ -90,6 +90,7 @@ if __name__ == '__main__':
     '''Prints product of max 3 numbers for a range [0,i]'''
     for i in range(0, cases):
         heapObj.insertKey(p[i])
+        heapObj.printHeap()
         if i < 2:
             print -1
         elif i == 2:
