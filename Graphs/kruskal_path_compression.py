@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 class Node:
     def __init__(self,data):
         self.data = data
@@ -45,15 +47,46 @@ class DSU:
         for i in self.tasks:
             print self.tasks[i].data , self.tasks[i].parent.data
 
+class Graph:
+    def __init__(self,vertices,edges):
+        self.adj_list = defaultdict(list)
+        self.vertices = vertices
+        self.edges = edges
+
+    def add_edge(self,u,v,w):
+        self.adj_list[u].append((v,w))
+        self.adj_list[v].append((u,w))
+
+
 if __name__ == "__main__":
+
+    vertices,edges = map(int,raw_input().strip().split(' '))
+    graph = Graph(vertices,edges)
+
+    edge_list = []
+
+    for i in range(edges):
+        u,v,w = map(int,raw_input().strip().split(' '))
+        graph.add_edge(u,v,w)
+        edge_list.append((u,v,w))
+
+    chooser = sorted(edge_list,key = lambda x : (x[2], x[0] + x[1] + x[2]))
+
     dsu = DSU()
 
-    for i in range(10):
-        dsu.makeSet(i)
+    # Make Set for DSU
+    for i in range(vertices):
+        dsu.makeSet(i+1)
 
-    dsu.union(0,1)
-    dsu.union(0,2)
-    dsu.union(2,5)
-    dsu.union(3,7)
-    dsu.union(8,9)
-    dsu.union(8,0)
+    weight_sum = 0
+    chosen_edges = 0
+    for u,v,w in chooser:
+        if chosen_edges <= vertices - 2:
+            u_task = dsu.tasks[u]
+            v_task = dsu.tasks[v]
+            if dsu.pathCompress(u_task).parent != dsu.pathCompress(v_task).parent :
+                weight_sum+=w
+                chosen_edges+=1
+                dsu.union(u,v)
+
+    print weight_sum
